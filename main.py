@@ -19,6 +19,6 @@ async def UploadImage(file: bytes = File(...)):
             image.write(file)
             image.close()
         res = predict(file)
-        return {"prediction": res}
+        return {"prediction": res , "message" : "Our prediction is based on the images we trained please use the app on your own risk."}
     except Exception as e:
         return e
