@@ -3,9 +3,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from model import predict
 
 
-import json 
-# from model_definition import SegmentationModel 
-
 app = FastAPI() 
 app.add_middleware(
     CORSMiddleware,
@@ -17,9 +14,11 @@ app.add_middleware(
 
 @app.post("/upload_files")
 async def UploadImage(file: bytes = File(...)):
-    with open('image.jpg','wb') as image:
-        image.write(file)
-        image.close()
-    res = predict(file)
-    return res
-
+    try :
+        with open('image.jpg','wb') as image:
+            image.write(file)
+            image.close()
+        res = predict(file)
+        return {"prediction": res}
+    except Exception as e:
+        return e
